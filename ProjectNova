@@ -1,0 +1,1059 @@
+-- // Project Nova V9 \\ -- | [ Made by ThroughTheFireAndFlames#9925 :3 ]
+
+--[[---------------------------------------------------------------------------------------------------
+    This script updates a lot, Use this loadstring to be in the latest version:
+
+    getgenv().ToggleUI = "J"-- //  Key Toggle "J" set by default however you can change it.
+    getgenv().ProjectNovaV9 = "https://raw.githubusercontent.com/Lvl9999/TheStrongestBattlegrounds/main/ProjectNova";
+
+    pcall(function()
+        loadstring(game:HttpGet(getgenv().ProjectNovaV9))();
+    end)
+]]-----------------------------------------------------------------------------------------------------
+
+--// Auto Loader \\--
+repeat task.wait() until game:IsLoaded();
+
+--// Anti Kick Idle \\--
+task.spawn(function()
+    if not getgenv().AntiAfk == true then
+        while true do task.wait(1100);
+            pcall(function()
+                game:GetService("VirtualInputManager"):SendKeyEvent(true,"RightBracket",false,game);
+            end)
+        end
+        getgenv().AntiAfk = true;
+    end
+end)
+
+--// Settings Manager \\--
+getgenv().Configurations = function()
+    pcall(function()
+        -- [Farming Scripts]
+        getgenv().AutoKillLowestHealthPlr = false;
+        getgenv().AutoKillNearestPlr = false;
+        getgenv().AutoGiveKills = false;
+        getgenv().AutoUseM1s = false;
+        getgenv().AutoUseDashes = false;
+        getgenv().AutoUseSpecial = false;
+        getgenv().AutoUseSkill1 = false;
+        getgenv().AutoUseSkill2 = false;
+        getgenv().AutoUseSkill3 = false;
+        getgenv().AutoUseSkill4 = false;
+
+        -- [Miscellaneous Scripts]
+        getgenv().AutoMocking = false;
+        getgenv().AutoDashEffect = false;
+        getgenv().AutoReturnSafeZone = false;
+        getgenv().AutoGarouCounterBait = false;
+        getgenv().AutoAtomicCounterBait = false;
+    
+        -- [Fighting Scripts]
+        getgenv().AutoTeleportPunching = false;
+        getgenv().AutoAimlocking = false;
+        getgenv().AutoVoiding = false;
+        getgenv().AutoNoSlow = false;
+        getgenv().AutoBlocking = false;
+        getgenv().AutoDodging = false;
+    
+        -- [Movement Scripts]
+        getgenv().WalkspeedBypass = false;
+        getgenv().JumpPowerBypass = false;
+
+        -- [Esp Scripts]
+        getgenv().EspPlayers = false;  
+    end)
+end
+
+getgenv().Configurations();
+-----------------------------------[[ Main Ui Libs ]]------------------------------------------------------------------
+local DrRayLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Lvl9999/DrRay/main/Backup"))();
+local BoredLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Lvl9999/Bored/main/Backup"))();
+-----------------------------------------------------------------------------------------------------------------------
+
+local MainWindow = DrRayLibrary:Load("Project Nova   V9","Default");
+local HomeTab = DrRayLibrary.newTab("Home","http://www.roblox.com/asset/?id=9405923687");
+
+--// Apply Custom UI Color \\--
+game:GetService("CoreGui").DrRay.TopBar.BackgroundColor3 = Color3.new(0,0,0);
+game:GetService("CoreGui").DrRay.MainBar.BackgroundColor3 = Color3.new(0,0,0);
+game:GetService("CoreGui").DrRay.TopBar.TopBar.BackgroundColor3 = Color3.new(0,0,0);
+game:GetService("CoreGui").DrRay.TopBar.ProfileMenu.Clock.BackgroundTransparency = 0.75;
+game:GetService("CoreGui").DrRay.TopBar.ProfileMenu.PlayerProfile.BackgroundTransparency = 0.75;
+game:GetService("CoreGui").DrRay.TopBar.ProfileMenu.Title.BackgroundTransparency = 0.75;
+game:GetService("CoreGui").DrRay.TopBar.TopBarClose.BackgroundTransparency = 0.55;
+game:GetService("CoreGui").DrRay.TopBar.TopBarClose.idk.Visible = false;
+
+--// Loaded Notification \\--
+BoredLibrary.prompt("Project Nova V9","Successfully Loaded :3",3);
+
+---------------------------------[[ Main Source Code 💞 ]]------------------------------------------------------------
+HomeTab.newLabel("Local Player Scripts   📢");
+HomeTab.newToggle("Super Walkspeed","",false,function(Value)
+    getgenv().WalkspeedBypass = Value
+
+    -- Got From https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source
+    task.spawn(function()
+        while getgenv().WalkspeedBypass == true and game:GetService("Players").LocalPlayer do
+            pcall(function()
+                local chr = game:GetService("Players").LocalPlayer.Character
+                if chr then
+                   local hum = chr:FindFirstChildWhichIsA("Humanoid");
+                    if hum and hum.Parent then
+                        local hb = game:GetService("RunService").Heartbeat
+                        local delta = hb:Wait()
+                        if hum.MoveDirection.Magnitude > 0 then
+                            chr:TranslateBy(hum.MoveDirection * 12 * delta * 10);
+                        else
+                            chr:TranslateBy(hum.MoveDirection * delta * 10);
+                        end
+                    end
+                end
+            end)
+            task.wait(0.0015);
+        end
+    end)
+end)
+
+HomeTab.newToggle("Super JumpPower","",false,function(Value)
+    getgenv().JumpPowerBypass = Value
+
+    task.spawn(function()
+        while getgenv().JumpPowerBypass == true do
+            pcall(function()
+                if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):GetState() == Enum.HumanoidStateType.Jumping then
+                    game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame = game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame * CFrame.new(0,190,0);
+                end
+            end)
+            task.wait(0.0015);
+        end
+    end)
+end)
+
+HomeTab.newLabel("Visual Scripts   👁️");
+HomeTab.newToggle("Esp Players","",false,function(Value)
+    getgenv().EspPlayers = Value
+
+    local Folder = workspace.Live
+
+    local function CreateBilboard(X)
+        local Head = X:FindFirstChild("Head");
+        if not Head then return end
+
+        local BillboardGui = Instance.new("BillboardGui");
+        local TextLabel = Instance.new("TextLabel");
+
+        BillboardGui.Parent = Head
+        BillboardGui.AlwaysOnTop = true
+        BillboardGui.Size = UDim2.new(0,100,0,50);
+        BillboardGui.StudsOffset = Vector3.new(0, 2, 0);
+
+        TextLabel.Parent = BillboardGui
+        TextLabel.BackgroundColor3 = Color3.new(1,1,1);
+        TextLabel.BackgroundTransparency = 1
+        TextLabel.Size = UDim2.new(1,0,1,0);
+        TextLabel.Text = X.Name
+        TextLabel.TextColor3 = Color3.fromRGB(255,255,0);
+        TextLabel.TextScaled = true
+        TextLabel.Font = Enum.Font.GothamBold
+        TextLabel.TextStrokeTransparency = 0
+        TextLabel.TextStrokeColor3 = Color3.fromRGB(0,0,0);
+        TextLabel.Visible = false
+
+        return BillboardGui, TextLabel
+    end
+
+    local function UseESP(X)
+        local Head = X:FindFirstChild("Head");
+        if not Head then return end
+
+        local BillboardGui, TextLabel = CreateBilboard(X)
+        local RenderSteppedCon
+
+        local function DisconnectCons()
+            if BillboardGui then
+                BillboardGui:Destroy();
+            end
+            if RenderSteppedCon then
+                RenderSteppedCon:Disconnect();
+                RenderSteppedCon = nil
+            end
+        end
+
+        RenderSteppedCon = game:GetService("RunService").RenderStepped:Connect(function()
+            local HeadPosition, HeadOnScreen = workspace.CurrentCamera:WorldToViewportPoint(Head.Position);
+            if HeadOnScreen then
+                TextLabel.Visible = getgenv().EspPlayers
+            else
+                TextLabel.Visible = false
+            end
+        end)
+
+        X.AncestryChanged:Connect(function(_,b)
+            if not b then
+                DisconnectCons();
+            end
+        end)
+    end
+
+    local function isPlayer(X)
+        return game.Players:GetPlayerFromCharacter(X) ~= nil
+    end
+
+    local function XAdded(X)
+        if isPlayer(X) and X:IsA("Model") and X:FindFirstChild("Head") then
+            UseESP(X);
+        end
+        X.ChildAdded:Connect(function(v)
+            if isPlayer(v) and v:IsA("Model") and v:FindFirstChild("Head") then
+                UseESP(v);
+            end
+        end)
+    end
+
+    for _,X in ipairs(Folder:GetChildren()) do
+        if isPlayer(X) and X:IsA("Model") and X:FindFirstChild("Head") then
+            XAdded(X);
+        end
+    end
+
+    Folder.ChildAdded:Connect(function(v)
+        task.wait(0.5);XAdded(v);
+    end)
+end)
+
+HomeTab.newLabel("Quick Scripts   🚀");
+HomeTab.newButton("Animation Grabber","",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Lvl9999/AnimationGrabber/main/Universal"))();
+end)
+
+HomeTab.newButton("Infinite Yield","",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))();
+end)
+
+HomeTab.newButton("Remote Spy","",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpySource.lua"))();
+end)
+
+HomeTab.newButton("Dark Explorer","",function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/peyton2465/Dex/master/out.lua'))();
+end)
+
+HomeTab.newButton("Teleport Maker","",function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/GSgUCJmq"))();
+end)
+
+HomeTab.newLabel("Project Nova Hub Stuff   🌸");
+HomeTab.newButton("Reload Project Nova","",function()
+    getgenv().ProjectNova = "https://raw.githubusercontent.com/Lvl9999/TheStrongestBattlegrounds/main/ProjectNovaV9";
+
+    pcall(function()
+        game:GetService("CoreGui").DrRay:Destroy();loadstring(game:HttpGet(getgenv().ProjectNova))();
+    end)
+end)
+
+HomeTab.newButton("Goodbye Project Nova   👋","",function()
+    task.spawn(function()pcall(function()game:GetService("CoreGui").DrRay:Destroy();end);end);getgenv().Configurations();
+    BoredLibrary.prompt("Project Nova V9","Goodbye :)",0.5);
+end)
+
+HomeTab.newInput("Report Bugs / Feedback","Type here anything you want me to know :)",function(text)
+    getgenv().Message = text
+    getgenv().WebHook = "https://discord.com/api/webhooks/1139637670851641454/hA_jFyhj0TPK6TRXA4h0_iBsDEP37Pk_s8g2wY2xlJHV8jW68Rd9rpyp9-DVBD5l1ltm";
+
+    task.spawn(function()
+        if getgenv().Message ~= "" then
+            local data = {content = "",embeds = {{author = {name = game.Players.LocalPlayer.Name,},title = "Reported:",description = getgenv().Message,type = "rich",color = tonumber(0xff0000),footer = {text = string.format("Reported at %s",os.date("%Y-%m-%d %X"))}}}};
+            local request = http_request or request or HttpPost or syn.request
+            request({Url = getgenv().WebHook,Body = game:GetService("HttpService"):JSONEncode(data),Method = "POST",Headers = {["content-type"] = "application/json"}});
+            BoredLibrary.prompt("Project Nova V9","Message Sent   ✅",1.5);
+        end
+    end)
+end)
+
+local MiscellaneousTab = DrRayLibrary.newTab("Misc","http://www.roblox.com/asset/?id=9405930424");
+
+MiscellaneousTab.newLabel("Miscellaneous Scripts   📌");
+MiscellaneousTab.newToggle("Auto Roast Dead Players","",false,function(Value)
+    getgenv().AutoMocking = Value
+
+    -- // Thanks to ChatGPT the goat
+    local AntagonizeList = {
+        "Pathetic!",
+        "Nice try, loser!",
+        "Git gud!",
+        "You're a noob!",
+        "Did you even try?",
+        "Keep dying, it's amusing!",
+        "Too easy!",
+        "Better luck next time!",
+        "That was embarrassing!",
+        "You're just feeding me kills!",
+        "Can't handle the pressure?",
+        "You call that playing?",
+        "LOL, what a scrub!",
+        "Go cry to your mommy!",
+        "How's the view from down there?",
+        "You're making this too easy!",
+        "Did you forget how to play?",
+        "Is that all you've got?",
+        "Keep trying, maybe you'll get one kill!",
+        "I've seen better.",
+        "You're a disgrace!",
+        "Nice feeding spree!",
+        "Why are you even playing?",
+        "Just uninstall.",
+        "You're so bad it's funny!",
+        "I'm not even trying.",
+        "Stop embarrassing yourself.",
+        "You're a walking respawn timer!",
+        "Get rekt, scrub!",
+        "You're a joke!",
+        "Go back to training mode.",
+        "Try harder next time.",
+        "This is too easy, step it up!",
+        "How's the taste of defeat?",
+        "Do you even play this game?",
+        "You're just wasting everyone's time.",
+        "You must be new here.",
+        "Just stop trying.",
+        "I'm just toying with you.",
+        "That was painful to watch.",
+        "Noob alert!",
+        "Stay in the kiddie pool!",
+        "Is this your first time playing?",
+        "You're outclassed.",
+        "Did someone forget their skills?",
+        "Maybe games aren't for you.",
+        "Are you even trying to win?",
+        "This is embarrassing for you.",
+        "Do you need a tutorial?",
+        "Keep dreaming of victory.",
+        "I'm yawning over here.",
+        "You make this too easy.",
+        "You're not even worth my time.",
+        "I've seen toddlers play better.",
+        "You're a respawn machine!",
+        "You're like a training dummy.",
+        "Did you pay to be this bad?",
+        "You're the laughingstock of the server.",
+        "Even bots are better than you.",
+        "It's like you're playing blindfolded.",
+        "Maybe gaming isn't your thing.",
+        "Are you allergic to winning?",
+        "I'm having a picnic while you respawn.",
+        "I've seen more skill in a potato.",
+        "You're the reason I have a high K/D ratio.",
+        "Keep providing me with free kills.",
+        "This is the saddest gameplay I've seen.",
+        "Did you download your skills from the internet?",
+        "Are you playing with your eyes closed?",
+        "You're like a magnet for free kills.",
+        "Did your mom install the game for you?",
+        "You should change your name to 'Feeder'.",
+        "I bet you think you're good at this game.",
+        "I could play blindfolded and still win.",
+        "Are you intentionally trying to lose?",
+        "You're a professional respawn button presser.",
+        "Your gameplay is a comedy show.",
+        "Do you need a GPS to find the 'Leave' button?",
+        "Even the NPCs play better than you.",
+        "Do you have a strategy or just pressing buttons randomly?",
+        "You must be allergic to victory.",
+        "I could go make a sandwich and still win against you.",
+        "Are you trying to set a world record for most deaths in a minute?",
+        "Your gameplay is a tutorial on how not to play.",
+        "I bet you're proud of that death streak.",
+        "Did you forget what 'winning' means?",
+        "You're like a walking 'Defeat' sign.",
+        "I'm going to need a bigger trophy for all these kills you're giving me.",
+        "You're like a gift that keeps on giving... free kills!",
+        "You should try playing a game more suited to your skills, like tic-tac-toe.",
+        "This is like watching a car crash in slow motion, but less entertaining.",
+        "Do you need me to call tech support for you?",
+        "I think you need to restart your gaming career.",
+        "You're the MVP of feeding kills.",
+        "I'm not sure what's worse, your gameplay or your excuses.",
+        "Even my pet could play better than you.",
+        "You're like a mystery box... full of disappointments.",
+        "I've seen more challenge in a game of checkers.",
+        "You're like a pinata... full of free kills.",
+        "Did you read the instructions? Oh wait, you didn't.",
+        "I bet you think dying is an achievement.",
+        "Your gameplay makes me question the meaning of competition.",
+        "You're like a legend... in dying.",
+        "Do you think dying is a tactic?",
+        "I'm surprised you haven't rage quit yet.",
+        "You're the definition of 'easy target'.",
+        "I'm starting to feel sorry for your keyboard/controller.",
+        "You're like a master at dying... and nothing else.",
+        "I'm winning so hard, it's almost unfair to you.",
+        "Did you forget the objective of the game?",
+        "I'm going to need a bigger scoreboard to fit all these kills.",
+    }
+    
+    local LPlayer = game.Players.LocalPlayer
+    local CRoot
+    
+    local function UpdateCRoot()
+        local LChar = LPlayer.Character
+        if LChar then
+            CRoot = LChar:FindFirstChild("HumanoidRootPart");
+            if not CRoot then
+                LChar.ChildAdded:Wait();
+                CRoot = LChar:WaitForChild("HumanoidRootPart");
+            end
+        end
+    end
+    
+    local function FindNearest()
+        local Dist = 55
+        local NearestPlr = nil
+    
+        for _,v in pairs(game.Workspace.Live:GetChildren()) do
+            local Humanoid = v:FindFirstChildOfClass("Humanoid");
+            local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
+    
+            if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
+                if Humanoid.Health == 0 then
+                    local Mag = (CRoot.Position - HumanoidRoot.Position).magnitude
+                    if Mag < Dist then
+                        Dist = Mag
+                        NearestPlr = HumanoidRoot
+                    end
+                end
+            end
+        end
+    
+        return NearestPlr
+    end
+
+    task.spawn(function()
+        while getgenv().AutoMocking == true  do
+            pcall(function()UpdateCRoot();
+                if CRoot then
+                    local Found = FindNearest();
+                    if Found then                    
+                        local args = { AntagonizeList[math.random(1,#AntagonizeList)],"All"};
+                        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer(unpack(args));
+                    end
+                end
+            end)
+            task.wait(2.45);
+        end
+    end)
+    
+    LPlayer.CharacterAdded:Connect(function()
+        task.wait(3);UpdateCRoot();
+    end)
+end)
+
+MiscellaneousTab.newToggle("Auto Dash Effects (Use No Slow)","",false,function(Value)
+    getgenv().AutoDashEffect = Value
+
+    task.spawn(function()
+        while getgenv().AutoDashEffect == true do
+            pcall(function()
+                local args = {[1] = {["Dash"] = Enum.KeyCode.S,["Key"] = Enum.KeyCode.Q,["Goal"] = "KeyPress"}} ;
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+            end)
+            task.wait(0.15);
+        end
+    end)
+end)
+
+MiscellaneousTab.newToggle("Auto Garou Counter Bait","",false,function(Value)
+    getgenv().AutoGarouCounterBait = Value
+
+    task.spawn(function()
+        while getgenv().AutoGarouCounterBait == true do
+            pcall(function()
+                local GarouCounterAnimation = Instance.new("Animation");GarouCounterAnimation.AnimationId = "rbxassetid://12351854556" local k = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(GarouCounterAnimation);k:Play();k:AdjustSpeed(1);
+            end)
+            task.wait(4.5);
+        end
+    end)
+end)
+
+MiscellaneousTab.newToggle("Auto Atomic Samurai Counter Bait","",false,function(Value)
+    getgenv().AutoAtomicCounterBait = Value
+
+    task.spawn(function()
+        while getgenv().AutoAtomicCounterBait == true do
+            pcall(function()
+                local AtomicCounterAnimation = Instance.new("Animation");AtomicCounterAnimation.AnimationId = "rbxassetid://15311685628" local k = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(AtomicCounterAnimation);k:Play();k:AdjustSpeed(1);
+            end)
+            task.wait(4.5);
+        end
+    end)
+end)
+
+MiscellaneousTab.newToggle("Auto Return Safe Zone On Low HP","",false,function(Value)
+    getgenv().AutoReturnSafeZone = Value
+
+    local X = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+    local Teleported = false;
+    
+    task.spawn(function()
+        while getgenv().AutoReturnSafeZone == true do
+            pcall(function()
+                if workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("Humanoid").Health < 45 and not Teleported then
+                    X = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(76.91679382324219,613.1607666015625,-426.9883728027344);
+                    Teleported = true;
+                elseif workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("Humanoid").Health == 75 and Teleported then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = X;
+                    Teleported = false;
+                end
+            end)
+            task.wait(0.15);
+        end
+    end)
+end)
+
+local FightingTab = DrRayLibrary.newTab("Fighting","http://www.roblox.com/asset/?id=7461510428");
+
+FightingTab.newLabel("Fighting Scripts   ⚔️");
+FightingTab.newToggle("Aimlock Nearest Player (Overpowered)","",false,function(Value)
+    getgenv().AutoAimlocking = Value
+    game:GetService("RunService").RenderStepped:Connect(function() if not getgenv().AutoAimlocking == true then return end local x,b for _,v in ipairs(game:GetService("Players"):GetPlayers()) do if v.Character and v ~= game:GetService("Players").LocalPlayer then if not x or (v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.Head.Position).Magnitude < b then x = v b = (v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.Head.Position).Magnitude end end end if x and b <= 15 then game:GetService("Workspace").CurrentCamera.CFrame = CFrame.new(game:GetService("Workspace").CurrentCamera.CFrame.p, x.Character.HumanoidRootPart.Position) end end);
+end)
+
+FightingTab.newToggle("Auto Ctrl + Click Combo Players (Overpowered)","",false,function(Value)
+    getgenv().AutoTeleportPunching = Value
+    getgenv().DetectionDistance = 55
+    getgenv().TeleportDistance = 5
+
+    local LPlayer = game.Players.LocalPlayer
+    local CRoot
+
+    local function UpdateCRoot()
+        local LChar = LPlayer.Character
+        if LChar then
+            CRoot = LChar:FindFirstChild("HumanoidRootPart");
+            if not CRoot then
+                LChar.ChildAdded:Wait();
+                CRoot = LChar:WaitForChild("HumanoidRootPart");
+            end
+        end
+    end
+
+    local function FindNearest()
+        local Dist = getgenv().DetectionDistance
+        local NearestPlr = nil
+
+        for _,v in pairs(game.Workspace.Live:GetChildren()) do
+            local Humanoid = v:FindFirstChildOfClass("Humanoid");
+            local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
+
+            if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
+                if Humanoid.Health > 0 then
+                    local Mag = (CRoot.Position - HumanoidRoot.Position).magnitude
+                    if Mag < Dist then
+                        Dist = Mag
+                        NearestPlr = HumanoidRoot
+                    end
+                end
+            end
+        end
+
+        return NearestPlr
+    end
+
+    game:GetService("UserInputService").InputBegan:Connect(function(t, j)
+        if not j and t.UserInputType == Enum.UserInputType.MouseButton1 then
+            if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftControl) then
+                if getgenv().AutoTeleportPunching == true then
+                    pcall(function()UpdateCRoot();
+                        if CRoot then
+                            local Found = FindNearest();
+                            if Found then
+                                local Target = Found.Position + -Found.CFrame.LookVector * getgenv().TeleportDistance
+                                LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target,Target + (Found.Position - Target).unit));
+                            end
+                        end
+                    end)
+                end
+            end
+        end
+    end)
+
+    LPlayer.CharacterAdded:Connect(function()
+        task.wait(3);UpdateCRoot();
+    end)
+end)
+
+FightingTab.newToggle("Auto Void Players (Requires Garou and Grab Moves)","",false,function(Value)
+    getgenv().AutoVoiding = Value
+
+    local X = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+    local Teleported = false;
+    
+    task.spawn(function()
+        while getgenv().AutoVoiding == true do
+            pcall(function()         
+                local ForceField = workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("ForceField");
+                local HunterFists = workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("HunterFists");
+                
+                if ForceField and HunterFists and not Teleported then
+                    X = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-9000,-150,9000);
+                    Teleported = true;
+                elseif not ForceField and not HunterFists and Teleported then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = X;
+                    Teleported = false;
+                end
+            end)
+            task.wait(0.35);
+        end
+    end)
+end)
+
+FightingTab.newToggle("Auto No Slow (Overpowered)","",false,function(Value)
+    getgenv().AutoNoSlow = Value
+
+    task.spawn(function()
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if getgenv().AutoNoSlow == true then
+                pcall(function()
+                    if workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("Freeze") and workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("M1ing") then
+                        game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame = game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame * CFrame.new(0,10,0);
+                    end
+
+                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25;
+                end)
+            else
+                connection:Disconnect();
+            end
+        end)
+    end)
+end)
+
+FightingTab.newToggle("Auto Block Players (Overpowered)","",false,function(Value)
+    getgenv().AutoBlocking = Value
+
+    task.spawn(function()
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if getgenv().AutoBlocking == true then
+                pcall(function()
+                    for _,k in ipairs(workspace.Live:GetChildren()) do
+                        if k:IsA("Model") and k:FindFirstChild("Head") and k.Head:IsA("Part") and k.Head.Name == "Head" and k.Head ~= game.Players.LocalPlayer.Character.Head then
+                            if (k.Head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude <= 15 then
+                                if k:FindFirstChildOfClass("Humanoid") and k:FindFirstChildOfClass("Humanoid").Health > 0 then
+                                    if k:FindFirstChild("M1ing") then
+                                        local args = {[1] = {["Goal"] = "KeyPress",["Key"] = Enum.KeyCode.F}};
+                                        game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                                    else task.wait(0.15);
+                                        local args = {[1] = {["Goal"] = "KeyRelease",["Key"] = Enum.KeyCode.F}};
+                                        game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+            else
+                connection:Disconnect();
+            end
+        end)
+    end)
+end)
+
+FightingTab.newToggle("Auto Dodge Players (Overpowered)","",false,function(Value)
+    getgenv().AutoDodging = Value
+
+    task.spawn(function()
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if getgenv().AutoDodging == true then
+                pcall(function()
+                    for _,k in ipairs(workspace.Live:GetChildren()) do
+                        if k:IsA("Model") and k:FindFirstChild("Head") and k.Head:IsA("Part") and k.Head.Name == "Head" and k.Head ~= game.Players.LocalPlayer.Character.Head then
+                            if (k.Head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude <= 25 then
+                                if k:FindFirstChildOfClass("Humanoid") and k:FindFirstChildOfClass("Humanoid").Health > 0 then
+                                    if k:FindFirstChild("Freeze") or k:FindFirstChild("M1ing") then
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,20,15);
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+            else
+                connection:Disconnect();
+            end
+        end)
+    end)
+end)
+
+local FarmingTab = DrRayLibrary.newTab("Farming","http://www.roblox.com/asset/?id=12334656615");
+
+FarmingTab.newLabel("Equip Character   📌");
+FarmingTab.newDropdown("","",{"Saitama","Garou","Genos","Sonic","Metal Bat","Atomic Samurai","Tatsumaki","Who The Fuck Is This?"},function(Value)
+    pcall(function()
+        task.spawn(function()local Return = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame game:GetService("Players").LocalPlayer.CharacterAdded:Wait() repeat task.wait(1.75) until game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = Return end)
+
+        task.spawn(function()BoredLibrary.prompt("Project Nova V9","Changing Character...",0.5);end);
+        if Value == "Saitama" then
+            local args = {[1] = {["Goal"] = "Change Character",["Character"] = "Bald"}};
+            game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));  
+        elseif Value == "Garou" then
+            local args = {[1] = {["Goal"] = "Change Character",["Character"] = "Hunter"}};
+            game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));  
+        elseif Value == "Genos" then
+            local args = {[1] = {["Goal"] = "Change Character",["Character"] = "Cyborg"}};
+            game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+        elseif Value == "Sonic" then
+            local args = {[1] = {["Goal"] = "Change Character",["Character"] = "Ninja"}};
+            game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+        elseif Value == "Metal Bat" then
+            local args = {[1] = {["Goal"] = "Change Character",["Character"] = "Batter"}};
+            game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+        elseif Value == "Atomic Samurai" then
+            local args = {[1] = {["Goal"] = "Change Character",["Character"] = "Blade"}};
+            game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+        elseif Value == "Tatsumaki" then
+            local args = {[1] = {["Goal"] = "Change Character",["Character"] = "Esper"}};
+            game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+        elseif Value == "Who The Fuck Is This?" then
+            local args = {[1] = {["Goal"] = "Change Character",["Character"] = "Purple"}};
+            game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+        end
+    end)
+end)
+
+FarmingTab.newLabel("Auto Use Skills   💥");
+FarmingTab.newToggle("Auto Use M1's","",false,function(Value)
+    getgenv().AutoUseM1s = Value
+
+    task.spawn(function()
+        while getgenv().AutoUseM1s == true do
+            pcall(function()
+                local args = {[1] = {["Goal"] = "LeftClick",["Mobile"] = true}};
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                local args = {[1] = {["Goal"] = "LeftClickRelease",["Mobile"] = true}};
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+            end)
+            task.wait(0.25);
+        end
+    end)
+end)
+
+FarmingTab.newToggle("Auto Use Dashes","",false,function(Value)
+    getgenv().AutoUseDashes = Value
+
+    task.spawn(function()
+        while getgenv().AutoUseDashes == true do
+            pcall(function()
+                local args = {[1] = {["Dash"] = Enum.KeyCode.W,["Key"] = Enum.KeyCode.Q,["Goal"] = "KeyPress"}};
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+            end)
+            task.wait(0.25);
+        end
+    end)
+end)
+
+FarmingTab.newToggle("Auto Use Special","",false,function(Value)
+    getgenv().AutoUseSpecial = Value
+
+    task.spawn(function()
+        while getgenv().AutoUseSpecial == true do
+            pcall(function()
+                local args = {[1] = {["Goal"] = "KeyPress",["Key"] = Enum.KeyCode.G}};
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));             
+            end)
+            task.wait(0.45);
+        end
+    end)
+end)
+
+FarmingTab.newToggle("Auto Use Skill 1 (Attack)","",false,function(Value)
+    getgenv().AutoUseSkill1 = Value
+
+    task.spawn(function()
+        while getgenv().AutoUseSkill1 == true do
+            pcall(function()
+                game:GetService("VirtualInputManager"):SendKeyEvent(true,"One",false,game);
+                local args = {[1] = {["Goal"] = "LeftClick"}};
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                game:GetService("VirtualInputManager"):SendKeyEvent(false,"One",false,game);
+            end)
+            task.wait(0.35);
+        end
+    end)
+end)
+
+FarmingTab.newToggle("Auto Use Skill 2 (Attack)","",false,function(Value)
+    getgenv().AutoUseSkill2 = Value
+
+    task.spawn(function()
+        while getgenv().AutoUseSkill2 == true do
+            pcall(function()
+                game:GetService("VirtualInputManager"):SendKeyEvent(true,"Two",false,game);
+                local args = {[1] = {["Goal"] = "LeftClick"}};
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+            end)
+            task.wait(0.35);
+        end
+    end)
+end)
+
+FarmingTab.newToggle("Auto Use Skill 3 (Attack)","",false,function(Value)
+    getgenv().AutoUseSkill3 = Value
+
+    task.spawn(function()
+        while getgenv().AutoUseSkill3 == true do
+            pcall(function()
+                game:GetService("VirtualInputManager"):SendKeyEvent(true,"Three",false,game);
+                local args = {[1] = {["Goal"] = "LeftClick"}};
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+            end)
+            task.wait(0.35);
+        end
+    end)
+end)
+
+FarmingTab.newToggle("Auto Use Skill 4 (Counter)","",false,function(Value)
+    getgenv().AutoUseSkill4 = Value
+
+    task.spawn(function()
+        while getgenv().AutoUseSkill4 == true do
+            pcall(function()
+                game:GetService("VirtualInputManager"):SendKeyEvent(true,"Four",false,game);
+                local args = {[1] = {["Goal"] = "LeftClick"}};
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+            end)
+            task.wait(0.35);
+        end
+    end)
+end)
+
+FarmingTab.newLabel("Auto Farming  📈");
+FarmingTab.newToggle("Auto Kill Lowest Health Player","",false,function(Value)
+    getgenv().AutoKillLowestHealthPlr = Value
+    getgenv().TeleportDistance = 5
+    
+    local LPlayer = game.Players.LocalPlayer
+    local CRoot
+    
+    local function UpdateCRoot()
+        local LChar = LPlayer.Character
+        if LChar then
+            CRoot = LChar:FindFirstChild("HumanoidRootPart");
+            if not CRoot then
+                LChar.ChildAdded:Wait();
+                CRoot = LChar:WaitForChild("HumanoidRootPart");
+            end
+        end
+    end
+    
+    local function FindLowestHealth()
+        local LowestHealth = math.huge
+        local NearestPlr = nil
+    
+        for _,v in pairs(game.Workspace.Live:GetChildren()) do
+            local Humanoid = v:FindFirstChildOfClass("Humanoid");
+            local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
+    
+            if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
+                if Humanoid.Health > 0 and Humanoid.Health < LowestHealth then
+                    LowestHealth = Humanoid.Health;NearestPlr = HumanoidRoot;
+                end
+            end
+        end
+    
+        return NearestPlr
+    end
+    
+    task.spawn(function()
+        while getgenv().AutoKillLowestHealthPlr == true  do
+            pcall(function()UpdateCRoot();
+                if CRoot then
+                    local Found = FindLowestHealth();
+                    if Found then
+                        local Target = Found.Position + - Found.CFrame.LookVector * getgenv().TeleportDistance
+                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target,Target + (Found.Position - Target).unit));
+                    end
+                end
+            end)
+            task.wait(0.015);
+        end
+    end)
+    
+    LPlayer.CharacterAdded:Connect(function()
+        task.wait(3);UpdateCRoot();
+    end)
+end)
+
+FarmingTab.newToggle("Auto Kill Nearest Player","",false,function(Value)
+    getgenv().AutoKillNearestPlr = Value
+    getgenv().TeleportDistance = 5
+    
+    local LPlayer = game.Players.LocalPlayer
+    local CRoot
+    
+    local function UpdateCRoot()
+        local LChar = LPlayer.Character
+        if LChar then
+            CRoot = LChar:FindFirstChild("HumanoidRootPart");
+            if not CRoot then
+                LChar.ChildAdded:Wait();
+                CRoot = LChar:WaitForChild("HumanoidRootPart");
+            end
+        end
+    end
+    
+    local function FindNearest()
+        local Dist = math.huge
+        local NearestPlr = nil
+    
+        for _,v in pairs(game.Workspace.Live:GetChildren()) do
+            local Humanoid = v:FindFirstChildOfClass("Humanoid");
+            local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
+    
+            if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
+                if Humanoid.Health > 0 then
+                    local Mag = (CRoot.Position - HumanoidRoot.Position).magnitude
+                    if Mag < Dist then
+                        Dist = Mag
+                        NearestPlr = HumanoidRoot
+                    end
+                end
+            end
+        end
+    
+        return NearestPlr
+    end
+    
+    task.spawn(function()
+        while getgenv().AutoKillNearestPlr == true  do
+            pcall(function()UpdateCRoot();
+                if CRoot then
+                    local Found = FindNearest();
+                    if Found then
+                        local Target = Found.Position + -Found.CFrame.LookVector * getgenv().TeleportDistance
+                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target,Target + (Found.Position - Target).unit));
+                    end
+                end
+            end)
+            task.wait(0.015);
+        end
+    end)
+    
+    LPlayer.CharacterAdded:Connect(function()
+        task.wait(3);UpdateCRoot();
+    end)
+end)
+
+FarmingTab.newToggle("Auto Give Kills (Helps Players)","",false,function(Value)
+    getgenv().AutoGiveKills = Value
+
+    task.spawn(function()
+        while getgenv().AutoGiveKills == true do
+            pcall(function()
+                if workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("Humanoid").MaxHealth ~= workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("Humanoid").Health then
+                    game.Players.LocalPlayer.Character.Humanoid.Health = 0;
+                end
+            end)
+            task.wait(0.35);
+        end
+    end)
+end)
+
+local AreasTab = DrRayLibrary.newTab("Areas","http://www.roblox.com/asset/?id=6723742952");
+getgenv().PlaySound = function()
+    local Playlist = {"http://www.roblox.com/asset/?id=289556450","http://www.roblox.com/asset/?id=2642969814","http://www.roblox.com/asset/?id=6408655200"};
+
+    local Sound = Instance.new("Sound");Sound.Name = "Sound";Sound.SoundId = Playlist[math.random(1,#Playlist)];
+    Sound.Volume = 10;Sound.Looped = false;Sound.Archivable = false;Sound.Parent = game.Workspace;Sound:Play();
+end
+
+AreasTab.newLabel("Teleports   📌");
+AreasTab.newButton("The Battlegrounds (Center)","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(139.47958374023438,440.7559814453125,31.634244918823242);
+end)
+
+AreasTab.newButton("The Mountains (Safe Zone)","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(155.577392578125,628.742431640625,-447.93841552734375);
+end)
+
+AreasTab.newButton("Park 1 (Top Donators)","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(368.92938232421875,441.1544189453125,-67.6085433959961);
+end)
+
+AreasTab.newButton("Park 2 (Near Park 1)","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(218.85769653320312,441.1160583496094,-233.03860473632812);
+end)
+
+AreasTab.newButton("Park 3 (Near Park 1)","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(361.5260314941406,441.1162109375,171.6634979248047);
+end)
+
+AreasTab.newButton("Park 4 (Near Park 3)","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(105.94264221191406,441.11749267578125,266.7955017089844);
+end)
+
+AreasTab.newButton("Park 5 (Top Kills)","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-75.07669067382812,441.1554870605469,112.77027893066406);
+end)
+
+AreasTab.newButton("Park 6 (Near Park 5)","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-46.60008239746094,441.11749267578125,-117.73700714111328);
+end)
+
+AreasTab.newButton("Entry 1","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(16.98122215270996,439.51055908203125,-301.31036376953125);
+end)
+
+AreasTab.newButton("Entry 2","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(290.22674560546875,439.5105285644531,360.96368408203125);
+end)
+
+AreasTab.newButton("Corner 1","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(29.195985794067383,441.6671142578125,487.5752868652344);
+end)
+
+AreasTab.newButton("Corner 2","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-261.2210998535156,441.75091552734375,-248.4373016357422);
+end)
+
+AreasTab.newButton("Corner 3","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(263.33441162109375,442.1732177734375,-456.0326843261719);
+end)
+
+AreasTab.newButton("Corner 4","",function()
+    getgenv().PlaySound();game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(565.9132690429688,441.7717590332031,273.63775634765625);
+end)
+
+--// Apply Custom Tab Colors \\--
+local Tabs = {
+    game:GetService("CoreGui").DrRay.MainBar.Home;
+    game:GetService("CoreGui").DrRay.MainBar.Misc;
+    game:GetService("CoreGui").DrRay.MainBar.Fighting;
+    game:GetService("CoreGui").DrRay.MainBar.Farming;
+    game:GetService("CoreGui").DrRay.MainBar.Areas;
+}
+
+for _,k in ipairs(Tabs) do
+    for _,v in ipairs(k:GetChildren()) do
+        if v.Name == "Label" then
+            v.BackgroundTransparency = 0.55;
+        end
+    end
+end
+
+--// Toggle UI Visibility \\--
+task.spawn(function()
+    if not getgenv().ToggleVisibility == true then
+        game:GetService("UserInputService").InputBegan:Connect(function(v,x)
+            if not x and v.KeyCode == Enum.KeyCode[getgenv().ToggleUI] then
+                pcall(function()
+                    game:GetService("CoreGui").DrRay.Enabled = not game:GetService("CoreGui").DrRay.Enabled;
+                end)
+            end
+        end)
+        getgenv().ToggleVisibility = true;
+    end
+end)
