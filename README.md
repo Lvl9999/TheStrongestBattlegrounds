@@ -1,7 +1,7 @@
 # Project Nova V9
 ### A Script hub exclusively for The Strongest Battlegrounds!
 
-- ### I named this hub "Project Nova" because I got inspired by an old Project JoJo script hub called "Nova Hub" which I liked.
+- ### I named this hub "Project Nova" bc I got inspired by an old Project JoJo script called "Nova Hub" which I liked.
 
 ## Project Nova's Loadstring:
 ```lua
