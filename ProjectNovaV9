@@ -439,7 +439,7 @@ MiscellaneousTab.newToggle("Auto Roast Dead Players","",false,function(Value)
                     end
                 end
             end)
-            task.wait(2.45);
+            task.wait(2.85);
         end
     end)
     
