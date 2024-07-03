@@ -7,7 +7,7 @@ getgenv().ToggleUI = "J"-- //  Key Toggle "J" set by default however you can cha
 getgenv().ProjectNova = "https://raw.githubusercontent.com/Lvl9999/TheStrongestBattlegrounds/main/ProjectNovaV9";
 
 pcall(function()
-    loadstring(game:HttpGet(getgenv().ProjectNovaV9))();
+    loadstring(game:HttpGet(getgenv().ProjectNova))();
 end)
 ```
 - #### I also made a script for Sakura Stand. I recommend you to check it out! [Here](https://github.com/Lvl9999/SakuraStand)
