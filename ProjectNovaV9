@@ -1,13 +1,13 @@
--- // Project Nova V9 \\ -- | [ Made by ThroughTheFireAndFlames#9925 :3 ]
+-- // Project Nova Hub V9 \\ -- | [ Made by ThroughTheFireAndFlames#9925 :3 ]
 
 --[[---------------------------------------------------------------------------------------------------
     This script updates a lot, Use this loadstring to be in the latest version:
 
     getgenv().ToggleUI = "J"-- //  Key Toggle "J" set by default however you can change it.
-    getgenv().ProjectNovaV9 = "https://raw.githubusercontent.com/Lvl9999/TheStrongestBattlegrounds/main/ProjectNova";
+    getgenv().ProjectNova = "https://raw.githubusercontent.com/Lvl9999/TheStrongestBattlegrounds/main/ProjectNovaV9";
 
     pcall(function()
-        loadstring(game:HttpGet(getgenv().ProjectNovaV9))();
+        loadstring(game:HttpGet(getgenv().ProjectNova))();
     end)
 ]]-----------------------------------------------------------------------------------------------------
 
