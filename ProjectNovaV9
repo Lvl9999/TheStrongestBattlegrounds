@@ -243,7 +243,7 @@ HomeTab.newButton("Teleport Maker","",function()
     loadstring(game:HttpGet("https://pastebin.com/raw/GSgUCJmq"))();
 end)
 
-HomeTab.newLabel("Project Nova Hub Stuff   🌸");
+HomeTab.newLabel("Project Nova Hub Stuff");
 HomeTab.newButton("Reload Project Nova","",function()
     getgenv().ProjectNova = "https://raw.githubusercontent.com/Lvl9999/TheStrongestBattlegrounds/main/ProjectNovaV9";
 
