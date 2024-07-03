@@ -1,6 +1,8 @@
 # Project Nova V9
 ### A Script hub exclusively for The Strongest Battlegrounds!
 
+- ### I named this hub "Project Nova" because I got inspired by an old Project JoJo script hub called "Nova Hub" which I liked.
+
 ## Project Nova's Loadstring:
 ```lua
 getgenv().ToggleUI = "J"-- //  Key Toggle "J" set by default however you can change it.
