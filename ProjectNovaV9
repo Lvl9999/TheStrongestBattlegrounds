@@ -781,7 +781,7 @@ FarmingTab.newToggle("Auto Steal Kills (Main Autofarm)","",false,function(Value)
                 local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
     
                 if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
-                    if Humanoid.Health > 0 and Humanoid.Health <= 40  then
+                    if Humanoid.Health > 0 and Humanoid.Health <= 45  then
                         LowestHealth = Humanoid.Health;NearestPlr = HumanoidRoot;
                     end
                 end
@@ -880,8 +880,8 @@ FarmingTab.newToggle("Auto Kill Nearest Player (Bully Someone)","",false,functio
                 if CRoot then
                     local Found = FindNearest();
                     if Found then
-                        local Target = Found.Position + -Found.CFrame.LookVector * getgenv().TeleportDistance
-                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target,Target + (Found.Position - Target).unit));
+                        local Target = Found.Position - Found.CFrame.LookVector * getgenv().TeleportDistance
+                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target + Vector3.new(0,-5,0), Target + Vector3.new(0,-5,0) + (Found.Position - Target + Vector3.new(0,-5,0)).unit * 5));
 
                         if not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("RagdollSim") and not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("AbsoluteImmortal") then
                             task.spawn(function()
