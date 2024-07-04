@@ -33,13 +33,8 @@ getgenv().Configurations = function()
         getgenv().AutoKillLowestHealthPlr = false;
         getgenv().AutoKillNearestPlr = false;
         getgenv().AutoGiveKills = false;
-        getgenv().AutoUseM1s = false;
+        getgenv().AutoUseUltimate = false;
         getgenv().AutoUseDashes = false;
-        getgenv().AutoUseSpecial = false;
-        getgenv().AutoUseSkill1 = false;
-        getgenv().AutoUseSkill2 = false;
-        getgenv().AutoUseSkill3 = false;
-        getgenv().AutoUseSkill4 = false;
 
         -- [Miscellaneous Scripts]
         getgenv().AutoMocking = false;
@@ -47,7 +42,7 @@ getgenv().Configurations = function()
         getgenv().AutoReturnSafeZone = false;
         getgenv().AutoGarouCounterBait = false;
         getgenv().AutoAtomicCounterBait = false;
-    
+
         -- [Fighting Scripts]
         getgenv().AutoTeleportPunching = false;
         getgenv().AutoAimlocking = false;
@@ -55,13 +50,13 @@ getgenv().Configurations = function()
         getgenv().AutoNoSlow = false;
         getgenv().AutoBlocking = false;
         getgenv().AutoDodging = false;
-    
+
         -- [Movement Scripts]
         getgenv().WalkspeedBypass = false;
         getgenv().JumpPowerBypass = false;
 
         -- [Esp Scripts]
-        getgenv().EspPlayers = false;  
+        getgenv().EspPlayers = false;
     end)
 end
 
@@ -279,39 +274,39 @@ MiscellaneousTab.newToggle("Auto Roast Dead Players","",false,function(Value)
 
     -- // Thanks to ChatGPT the goat
     local AntagonizeList = {
-        "Pathetic!",
-        "Nice try, loser!",
-        "Git gud!",
-        "You're a noob!",
+        "Pathetic",
+        "Nice try, loser",
+        "Git gud",
+        "You're a noob",
         "Did you even try?",
-        "Keep dying, it's amusing!",
-        "Too easy!",
-        "Better luck next time!",
-        "That was embarrassing!",
-        "You're just feeding me kills!",
+        "Keep dying, it's amusing",
+        "Too easy",
+        "Better luck next time",
+        "That was embarrassing",
+        "You're just feeding me kills",
         "Can't handle the pressure?",
         "You call that playing?",
-        "LOL, what a scrub!",
-        "Go cry to your mommy!",
+        "LOL, what a scrub",
+        "Go cry to your mommy",
         "How's the view from down there?",
-        "You're making this too easy!",
+        "You're making this too easy",
         "Did you forget how to play?",
         "Is that all you've got?",
-        "Keep trying, maybe you'll get one kill!",
+        "Keep trying, maybe you'll get one kill",
         "I've seen better.",
-        "You're a disgrace!",
-        "Nice feeding spree!",
+        "You're a disgrace",
+        "Nice feeding spree",
         "Why are you even playing?",
         "Just uninstall.",
-        "You're so bad it's funny!",
+        "You're so bad it's funny",
         "I'm not even trying.",
         "Stop embarrassing yourself.",
-        "You're a walking respawn timer!",
-        "Get rekt, scrub!",
-        "You're a joke!",
+        "You're a walking respawn timer",
+        "Get rekt, scrub",
+        "You're a joke",
         "Go back to training mode.",
         "Try harder next time.",
-        "This is too easy, step it up!",
+        "This is too easy, step it up",
         "How's the taste of defeat?",
         "Do you even play this game?",
         "You're just wasting everyone's time.",
@@ -319,8 +314,8 @@ MiscellaneousTab.newToggle("Auto Roast Dead Players","",false,function(Value)
         "Just stop trying.",
         "I'm just toying with you.",
         "That was painful to watch.",
-        "Noob alert!",
-        "Stay in the kiddie pool!",
+        "Noob alert",
+        "Stay in the kiddie pool",
         "Is this your first time playing?",
         "You're outclassed.",
         "Did someone forget their skills?",
@@ -333,7 +328,7 @@ MiscellaneousTab.newToggle("Auto Roast Dead Players","",false,function(Value)
         "You make this too easy.",
         "You're not even worth my time.",
         "I've seen toddlers play better.",
-        "You're a respawn machine!",
+        "You're a respawn machine",
         "You're like a training dummy.",
         "Did you pay to be this bad?",
         "You're the laughingstock of the server.",
@@ -367,7 +362,7 @@ MiscellaneousTab.newToggle("Auto Roast Dead Players","",false,function(Value)
         "Did you forget what 'winning' means?",
         "You're like a walking 'Defeat' sign.",
         "I'm going to need a bigger trophy for all these kills you're giving me.",
-        "You're like a gift that keeps on giving... free kills!",
+        "You're like a gift that keeps on giving... free kills",
         "You should try playing a game more suited to your skills, like tic-tac-toe.",
         "This is like watching a car crash in slow motion, but less entertaining.",
         "Do you need me to call tech support for you?",
@@ -407,7 +402,7 @@ MiscellaneousTab.newToggle("Auto Roast Dead Players","",false,function(Value)
     end
     
     local function FindNearest()
-        local Dist = 55
+        local Dist = 65
         local NearestPlr = nil
     
         for _,v in pairs(game.Workspace.Live:GetChildren()) do
@@ -724,19 +719,17 @@ FarmingTab.newDropdown("","",{"Saitama","Garou","Genos","Sonic","Metal Bat","Ato
     end)
 end)
 
-FarmingTab.newLabel("Auto Use Skills   💥");
-FarmingTab.newToggle("Auto Use M1's","",false,function(Value)
-    getgenv().AutoUseM1s = Value
+FarmingTab.newLabel("Auto Use Skill   💥");
+FarmingTab.newToggle("Auto Use Ultimate","",false,function(Value)
+    getgenv().AutoUseUltimate = Value
 
     task.spawn(function()
-        while getgenv().AutoUseM1s == true do
+        while getgenv().AutoUseUltimate == true do
             pcall(function()
-                local args = {[1] = {["Goal"] = "LeftClick",["Mobile"] = true}};
-                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
-                local args = {[1] = {["Goal"] = "LeftClickRelease",["Mobile"] = true}};
-                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                local args = {[1] = {["Goal"] = "KeyPress",["Key"] = Enum.KeyCode.G}};
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));             
             end)
-            task.wait(0.25);
+            task.wait(0.45);
         end
     end)
 end)
@@ -750,88 +743,13 @@ FarmingTab.newToggle("Auto Use Dashes","",false,function(Value)
                 local args = {[1] = {["Dash"] = Enum.KeyCode.W,["Key"] = Enum.KeyCode.Q,["Goal"] = "KeyPress"}};
                 game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
             end)
-            task.wait(0.25);
-        end
-    end)
-end)
-
-FarmingTab.newToggle("Auto Use Special","",false,function(Value)
-    getgenv().AutoUseSpecial = Value
-
-    task.spawn(function()
-        while getgenv().AutoUseSpecial == true do
-            pcall(function()
-                local args = {[1] = {["Goal"] = "KeyPress",["Key"] = Enum.KeyCode.G}};
-                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));             
-            end)
             task.wait(0.45);
         end
     end)
 end)
 
-FarmingTab.newToggle("Auto Use Skill 1 (Attack)","",false,function(Value)
-    getgenv().AutoUseSkill1 = Value
-
-    task.spawn(function()
-        while getgenv().AutoUseSkill1 == true do
-            pcall(function()
-                game:GetService("VirtualInputManager"):SendKeyEvent(true,"One",false,game);
-                local args = {[1] = {["Goal"] = "LeftClick"}};
-                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
-                game:GetService("VirtualInputManager"):SendKeyEvent(false,"One",false,game);
-            end)
-            task.wait(0.35);
-        end
-    end)
-end)
-
-FarmingTab.newToggle("Auto Use Skill 2 (Attack)","",false,function(Value)
-    getgenv().AutoUseSkill2 = Value
-
-    task.spawn(function()
-        while getgenv().AutoUseSkill2 == true do
-            pcall(function()
-                game:GetService("VirtualInputManager"):SendKeyEvent(true,"Two",false,game);
-                local args = {[1] = {["Goal"] = "LeftClick"}};
-                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
-            end)
-            task.wait(0.35);
-        end
-    end)
-end)
-
-FarmingTab.newToggle("Auto Use Skill 3 (Attack)","",false,function(Value)
-    getgenv().AutoUseSkill3 = Value
-
-    task.spawn(function()
-        while getgenv().AutoUseSkill3 == true do
-            pcall(function()
-                game:GetService("VirtualInputManager"):SendKeyEvent(true,"Three",false,game);
-                local args = {[1] = {["Goal"] = "LeftClick"}};
-                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
-            end)
-            task.wait(0.35);
-        end
-    end)
-end)
-
-FarmingTab.newToggle("Auto Use Skill 4 (Counter)","",false,function(Value)
-    getgenv().AutoUseSkill4 = Value
-
-    task.spawn(function()
-        while getgenv().AutoUseSkill4 == true do
-            pcall(function()
-                game:GetService("VirtualInputManager"):SendKeyEvent(true,"Four",false,game);
-                local args = {[1] = {["Goal"] = "LeftClick"}};
-                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
-            end)
-            task.wait(0.35);
-        end
-    end)
-end)
-
 FarmingTab.newLabel("Auto Farming  📈");
-FarmingTab.newToggle("Auto Kill Lowest Health Player","",false,function(Value)
+FarmingTab.newToggle("Auto Steal Kills (Main Autofarm)","",false,function(Value)
     getgenv().AutoKillLowestHealthPlr = Value
     getgenv().TeleportDistance = 5
     
@@ -849,17 +767,23 @@ FarmingTab.newToggle("Auto Kill Lowest Health Player","",false,function(Value)
         end
     end
     
+    local function isPlayer(X)
+        return game.Players:GetPlayerFromCharacter(X) ~= nil
+    end
+    
     local function FindLowestHealth()
         local LowestHealth = math.huge
         local NearestPlr = nil
     
         for _,v in pairs(game.Workspace.Live:GetChildren()) do
-            local Humanoid = v:FindFirstChildOfClass("Humanoid");
-            local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
+            if isPlayer(v) then
+                local Humanoid = v:FindFirstChildOfClass("Humanoid");
+                local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
     
-            if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
-                if Humanoid.Health > 0 and Humanoid.Health < LowestHealth then
-                    LowestHealth = Humanoid.Health;NearestPlr = HumanoidRoot;
+                if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
+                    if Humanoid.Health > 0 and Humanoid.Health <= 45  then
+                        LowestHealth = Humanoid.Health;NearestPlr = HumanoidRoot;
+                    end
                 end
             end
         end
@@ -873,21 +797,39 @@ FarmingTab.newToggle("Auto Kill Lowest Health Player","",false,function(Value)
                 if CRoot then
                     local Found = FindLowestHealth();
                     if Found then
-                        local Target = Found.Position + - Found.CFrame.LookVector * getgenv().TeleportDistance
-                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target,Target + (Found.Position - Target).unit));
+                        local Target = Found.Position - Found.CFrame.LookVector * getgenv().TeleportDistance
+                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target + Vector3.new(0,-5,0), Target + Vector3.new(0,-5,0) + (Found.Position - Target + Vector3.new(0,-5,0)).unit * 5));
+    
+                        if not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("RagdollSim") and not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("AbsoluteImmortal") then
+                            task.spawn(function()
+                                local args = {[1] = {["Goal"] = "LeftClick",["Mobile"] = true}};
+                                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                                local args = {[1] = {["Goal"] = "LeftClickRelease",["Mobile"] = true}};
+                                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                            end)
+    
+                            for _,x in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                                if x:IsA("Tool") and x.Name ~= "Prey's Peril" and x.Name ~= "Split Second Counter" then
+                                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(x);x:Activate();
+                                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):UnequipTools();
+                                end
+                            end
+                        end
+                    else
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(158.8054962158203,1669.6539306640625,-70.02584838867188);
                     end
                 end
             end)
             task.wait(0.015);
         end
     end)
-    
+
     LPlayer.CharacterAdded:Connect(function()
         task.wait(3);UpdateCRoot();
     end)
 end)
 
-FarmingTab.newToggle("Auto Kill Nearest Player","",false,function(Value)
+FarmingTab.newToggle("Auto Kill Nearest Player (Bully Someone)","",false,function(Value)
     getgenv().AutoKillNearestPlr = Value
     getgenv().TeleportDistance = 5
     
@@ -904,21 +846,26 @@ FarmingTab.newToggle("Auto Kill Nearest Player","",false,function(Value)
             end
         end
     end
+
+    local function isPlayer(X)
+        return game.Players:GetPlayerFromCharacter(X) ~= nil
+    end
     
     local function FindNearest()
         local Dist = math.huge
         local NearestPlr = nil
     
         for _,v in pairs(game.Workspace.Live:GetChildren()) do
-            local Humanoid = v:FindFirstChildOfClass("Humanoid");
-            local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
-    
-            if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
-                if Humanoid.Health > 0 then
-                    local Mag = (CRoot.Position - HumanoidRoot.Position).magnitude
-                    if Mag < Dist then
-                        Dist = Mag
-                        NearestPlr = HumanoidRoot
+            if isPlayer(v) then
+                local Humanoid = v:FindFirstChildOfClass("Humanoid");
+                local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
+        
+                if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
+                    if Humanoid.Health > 0 then
+                        local Mag = (CRoot.Position - HumanoidRoot.Position).magnitude
+                        if Mag < Dist then
+                            Dist = Mag;NearestPlr = HumanoidRoot;
+                        end
                     end
                 end
             end
@@ -935,6 +882,22 @@ FarmingTab.newToggle("Auto Kill Nearest Player","",false,function(Value)
                     if Found then
                         local Target = Found.Position + -Found.CFrame.LookVector * getgenv().TeleportDistance
                         LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target,Target + (Found.Position - Target).unit));
+
+                        if not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("RagdollSim") and not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("AbsoluteImmortal") then
+                            task.spawn(function()
+                                local args = {[1] = {["Goal"] = "LeftClick",["Mobile"] = true}};
+                                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                                local args = {[1] = {["Goal"] = "LeftClickRelease",["Mobile"] = true}};
+                                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                            end)
+
+                            for _,x in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                                if x:IsA("Tool") and x.Name ~= "Prey's Peril" and x.Name ~= "Split Second Counter" then
+                                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(x);x:Activate();
+                                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):UnequipTools();
+                                end
+                            end
+                        end
                     end
                 end
             end)
