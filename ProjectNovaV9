@@ -781,7 +781,7 @@ FarmingTab.newToggle("Auto Steal Kills (Main Autofarm)","",false,function(Value)
                 local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
     
                 if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
-                    if Humanoid.Health > 0 and Humanoid.Health <= 45  then
+                    if Humanoid.Health > 0 and Humanoid.Health <= 35  then
                         LowestHealth = Humanoid.Health;NearestPlr = HumanoidRoot;
                     end
                 end
