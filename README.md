@@ -2,8 +2,7 @@
 ### A Script hub exclusively for The Strongest Battlegrounds!
 
 - #### I named this hub "Project Nova" bc I got inspired by a Project JoJo script called "Nova Hub" which I liked.
-  
-#### <span style="color: red;">Be aware this script could get you banned!</span>
+<span style="color:red">#### Be aware this script could get you banned!</span>
 
 ## Project Nova's Loadstring:
 ```lua
