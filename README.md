@@ -3,7 +3,7 @@
 
 - #### I named this hub "Project Nova" bc I got inspired by a Project JoJo script called "Nova Hub" which I liked.
   
-<h4 style="color: red;">Be aware this script could get you banned!</h4>
+#### <span style="color: red;">Be aware this script could get you banned!</span>
 
 ## Project Nova's Loadstring:
 ```lua
