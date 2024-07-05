@@ -3,7 +3,7 @@
 
 - #### I named this hub "Project Nova" bc I got inspired by a Project JoJo script called "Nova Hub" which I liked.
   
-⚠️ Be aware this script could get you banned!
+- #### Be aware this script could get you banned!
 
 ## Project Nova's Loadstring:
 ```lua
