@@ -511,7 +511,7 @@ local FightingTab = DrRayLibrary.newTab("Fighting","http://www.roblox.com/asset/
 FightingTab.newLabel("Fighting Scripts   ⚔️");
 FightingTab.newToggle("Aimlock Nearest Player (Overpowered)","",false,function(Value)
     getgenv().AutoAimlocking = Value
-    game:GetService("RunService").RenderStepped:Connect(function() if not getgenv().AutoAimlocking == true then return end local x,b for _,v in ipairs(game:GetService("Players"):GetPlayers()) do if v.Character and v ~= game:GetService("Players").LocalPlayer then if not x or (v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.Head.Position).Magnitude < b then x = v b = (v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.Head.Position).Magnitude end end end if x and b <= 15 then game:GetService("Workspace").CurrentCamera.CFrame = CFrame.new(game:GetService("Workspace").CurrentCamera.CFrame.p, x.Character.HumanoidRootPart.Position) end end);
+    game:GetService("RunService").RenderStepped:Connect(function() if not getgenv().AutoAimlocking == true then return end local x,b for _,v in ipairs(game:GetService("Players"):GetPlayers()) do if v.Character and v ~= game:GetService("Players").LocalPlayer then if not x or (v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.Head.Position).Magnitude < b then x = v b = (v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.Head.Position).Magnitude end end end if x and b <= 35 then game:GetService("Workspace").CurrentCamera.CFrame = CFrame.new(game:GetService("Workspace").CurrentCamera.CFrame.p, x.Character.HumanoidRootPart.Position) end end);
 end)
 
 FightingTab.newToggle("Auto Ctrl + Click Combo Players (Overpowered)","",false,function(Value)
@@ -635,14 +635,14 @@ FightingTab.newToggle("Auto Block Players (Overpowered)","",false,function(Value
                 pcall(function()
                     for _,k in ipairs(workspace.Live:GetChildren()) do
                         if k:IsA("Model") and k:FindFirstChild("Head") and k.Head:IsA("Part") and k.Head.Name == "Head" and k.Head ~= game.Players.LocalPlayer.Character.Head then
-                            if (k.Head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude <= 15 then
+                            if (k.Head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude <= 18.5 then
                                 if k:FindFirstChildOfClass("Humanoid") and k:FindFirstChildOfClass("Humanoid").Health > 0 then
                                     if k:FindFirstChild("M1ing") then
                                         local args = {[1] = {["Goal"] = "KeyPress",["Key"] = Enum.KeyCode.F}};
                                         game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
-                                    else task.wait(0.15);
+                                    else
                                         local args = {[1] = {["Goal"] = "KeyRelease",["Key"] = Enum.KeyCode.F}};
-                                        game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                                        game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));     
                                     end
                                 end
                             end
@@ -659,6 +659,64 @@ end)
 FightingTab.newToggle("Auto Dodge Players (Overpowered)","",false,function(Value)
     getgenv().AutoDodging = Value
 
+    local DashAnims = {NormalDash = {10479335397},WeaponDash = {13380255751}};
+
+    local SaitamaAnims = {
+        NormalPunch = {10468665991};
+        ConsecutivePunches = {10466974800};
+        Shove = {10471336737};
+        Uppercut = {12510170988};
+    }
+    
+    local GarouAnims = {
+        FlowingWater = {12272894215};
+        LethalWhirlwindStream = {12296882427};
+        HunterGrasp = {12307656616};
+    }
+    
+    local GenosAnims = {
+        MachineGunBlows = {12534735382};
+        IgnitionBurst = {12502664044};
+        BlitzShot = {12618271998};
+        JetDive = {12684390285};
+    }
+    
+    local SonicAnims = {
+        FlashStrike = {13376869471};
+        WhirlwindKick = {13294790250};
+        Scatter = {13376962659,13365849295};
+        ExplosiveShuriken = {13501296372};
+    }
+    
+    local MetalBatAnims = {
+        Homerun = {14004235777,14003607057};
+        Beatdown = {14046756619,14048349132};
+        GrandSlam = {14299135500,14967219354};
+        FoulBall = {14351441234};
+    }
+    
+    local SamuraiAnims = {
+        QuickSlice = {15290930205};
+        AtomsCleave = {15145462680};
+        PinPointCut = {15295895753};
+    }
+    
+    local EsperAnims = {
+        CrushingPull = {16139108718,16139402582};
+        WindstormFury = {16515850153};
+        StoneCoffin = {16431491215};
+        ExplosivePush = {16597322398,16597912086};
+    }
+    
+    local Animations = {}
+    for _,x in pairs({DashAnims,SaitamaAnims,GarouAnims,GenosAnims,SonicAnims,MetalBatAnims,SamuraiAnims,EsperAnims}) do
+        for _,k in pairs(x) do
+            for _,v in pairs(k) do
+                table.insert(Animations,v);
+            end
+        end
+    end
+
     task.spawn(function()
         local connection
         connection = game:GetService("RunService").RenderStepped:Connect(function()
@@ -667,9 +725,16 @@ FightingTab.newToggle("Auto Dodge Players (Overpowered)","",false,function(Value
                     for _,k in ipairs(workspace.Live:GetChildren()) do
                         if k:IsA("Model") and k:FindFirstChild("Head") and k.Head:IsA("Part") and k.Head.Name == "Head" and k.Head ~= game.Players.LocalPlayer.Character.Head then
                             if (k.Head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude <= 25 then
-                                if k:FindFirstChildOfClass("Humanoid") and k:FindFirstChildOfClass("Humanoid").Health > 0 then
-                                    if k:FindFirstChild("Freeze") or k:FindFirstChild("M1ing") then
-                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,20,15);
+                                if k:FindFirstChildOfClass("Humanoid") and k:FindFirstChildOfClass("Humanoid").Health > 0 then local IsUsingAttacks = false;
+                                    for _,x in pairs(k:FindFirstChildOfClass("Humanoid"):GetPlayingAnimationTracks()) do
+                                        if table.find(Animations,tonumber(x.Animation.AnimationId:match("%d+"))) then
+                                            IsUsingAttacks = true;
+                                            break
+                                        end
+                                    end
+    
+                                    if k:FindFirstChild("M1ing") or IsUsingAttacks then    
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(k.Head.Position + k.Head.CFrame.lookVector * -20 + Vector3.new(0,35,0),k.Head.Position);
                                     end
                                 end
                             end
@@ -781,7 +846,7 @@ FarmingTab.newToggle("Auto Steal Kills (Main Autofarm)","",false,function(Value)
                 local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
     
                 if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
-                    if Humanoid.Health > 0 and Humanoid.Health <= 45  then
+                    if Humanoid.Health > 0 and Humanoid.Health <= 35  then
                         LowestHealth = Humanoid.Health;NearestPlr = HumanoidRoot;
                     end
                 end
@@ -797,9 +862,7 @@ FarmingTab.newToggle("Auto Steal Kills (Main Autofarm)","",false,function(Value)
                 if CRoot then
                     local Found = FindLowestHealth();
                     if Found then
-                        local Target = Found.Position - Found.CFrame.LookVector * getgenv().TeleportDistance
-                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target + Vector3.new(0,-5,0), Target + Vector3.new(0,-5,0) + (Found.Position - Target + Vector3.new(0,-5,0)).unit * 5));
-    
+                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Found.Position - Vector3.new(0,Found.Size.Y/2,0) - Found.CFrame.LookVector * getgenv().TeleportDistance + Vector3.new(0,-6,0),Found.Position - Vector3.new(0,Found.Size.Y/2,0)));
                         if not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("RagdollSim") and not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("AbsoluteImmortal") then
                             task.spawn(function()
                                 local args = {[1] = {["Goal"] = "LeftClick",["Mobile"] = true}};
@@ -816,7 +879,7 @@ FarmingTab.newToggle("Auto Steal Kills (Main Autofarm)","",false,function(Value)
                             end
                         end
                     else
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(158.8054962158203,1669.6539306640625,-70.02584838867188);
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(67.89816284179688,613.1607666015625,-443.03302001953125);
                     end
                 end
             end)
@@ -825,13 +888,19 @@ FarmingTab.newToggle("Auto Steal Kills (Main Autofarm)","",false,function(Value)
     end)
 
     LPlayer.CharacterAdded:Connect(function()
-        task.wait(3);UpdateCRoot();
+        task.wait(1.5);UpdateCRoot();
     end)
 end)
 
 FarmingTab.newToggle("Auto Kill Nearest Player (Bully Someone)","",false,function(Value)
     getgenv().AutoKillNearestPlr = Value
     getgenv().TeleportDistance = 5
+
+    task.spawn(function()
+        if getgenv().AutoKillNearestPlr == false then
+            game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame = game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame * CFrame.new(0,20,-20);
+        end
+    end)
     
     local LPlayer = game.Players.LocalPlayer
     local CRoot
@@ -873,16 +942,14 @@ FarmingTab.newToggle("Auto Kill Nearest Player (Bully Someone)","",false,functio
     
         return NearestPlr
     end
-    
+
     task.spawn(function()
         while getgenv().AutoKillNearestPlr == true  do
             pcall(function()UpdateCRoot();
                 if CRoot then
                     local Found = FindNearest();
                     if Found then
-                        local Target = Found.Position - Found.CFrame.LookVector * getgenv().TeleportDistance
-                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target + Vector3.new(0,-5,0), Target + Vector3.new(0,-5,0) + (Found.Position - Target + Vector3.new(0,-5,0)).unit * 5));
-
+                        LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Found.Position - Vector3.new(0,Found.Size.Y/2,0) - Found.CFrame.LookVector * getgenv().TeleportDistance + Vector3.new(0,-6,0),Found.Position - Vector3.new(0,Found.Size.Y/2,0)));
                         if not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("RagdollSim") and not workspace.Live:FindFirstChild(Found.Parent.Name):FindFirstChild("AbsoluteImmortal") then
                             task.spawn(function()
                                 local args = {[1] = {["Goal"] = "LeftClick",["Mobile"] = true}};
@@ -906,7 +973,7 @@ FarmingTab.newToggle("Auto Kill Nearest Player (Bully Someone)","",false,functio
     end)
     
     LPlayer.CharacterAdded:Connect(function()
-        task.wait(3);UpdateCRoot();
+        task.wait(1.5);UpdateCRoot();
     end)
 end)
 
