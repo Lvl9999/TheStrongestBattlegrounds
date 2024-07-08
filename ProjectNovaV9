@@ -254,7 +254,7 @@ end)
 
 HomeTab.newInput("Report Bugs / Feedback","Type here anything you want me to know :)",function(text)
     getgenv().Message = text
-    getgenv().WebHook = "https://discord.com/api/webhooks/1139637670851641454/hA_jFyhj0TPK6TRXA4h0_iBsDEP37Pk_s8g2wY2xlJHV8jW68Rd9rpyp9-DVBD5l1ltm";
+    getgenv().WebHook = "https://discord.com/api/webhooks/1259740492434903170/IviFL-3fPu7F6JpdkYtH98M3DMh74eURxDee_MSjD6kv9EKBnW9M70wa89UUERs3vvmx";
 
     task.spawn(function()
         if getgenv().Message ~= "" then
