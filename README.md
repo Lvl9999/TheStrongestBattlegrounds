@@ -3,7 +3,7 @@
 
 - #### I named this hub "Project Nova" bc I got inspired by a Project JoJo script called "Nova Hub" which I liked.
   
-- #### Be aware this script could get you banned and it will because roblox added "Alt Detection".
+- #### Be aware this script could get you banned and it will because Roblox added "Alt Detection".
 
 ## Project Nova's Loadstring:
 ```lua
