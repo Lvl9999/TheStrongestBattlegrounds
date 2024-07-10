@@ -39,6 +39,7 @@ getgenv().Configurations = function()
         -- [Miscellaneous Scripts]
         getgenv().AutoMocking = false;
         getgenv().AutoDashEffect = false;
+        getgenv().AutoFuckingGoku = false;
         getgenv().AutoReturnSafeZone = false;
         getgenv().AutoGarouCounterBait = false;
         getgenv().AutoAtomicCounterBait = false;
@@ -269,7 +270,7 @@ end)
 local MiscellaneousTab = DrRayLibrary.newTab("Misc","http://www.roblox.com/asset/?id=9405930424");
 
 MiscellaneousTab.newLabel("Miscellaneous Scripts   📌");
-MiscellaneousTab.newToggle("Auto Roast Dead Players","",false,function(Value)
+MiscellaneousTab.newToggle("Auto Roast Dead Players (Funny)","",false,function(Value)
     getgenv().AutoMocking = Value
 
     -- // Thanks to ChatGPT the goat
@@ -457,6 +458,48 @@ MiscellaneousTab.newToggle("Auto Dash Effects (Use No Slow)","",false,function(V
     end)
 end)
 
+MiscellaneousTab.newToggle("Auto Frick Goku (Sus)","",false,function(Value)
+    getgenv().AutoFuckingGoku = Value
+
+    task.spawn(function()
+        if getgenv().AutoFuckingGoku == true then
+            local FuckAnimation = Instance.new("Animation");FuckAnimation.AnimationId = "rbxassetid://148840371" local k = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(FuckAnimation);k:Play();k:AdjustSpeed(6);
+        else
+            for i,v in ipairs((game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") or game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("AnimationController")):GetPlayingAnimationTracks()) do
+                v:Stop();
+            end
+        end
+    end)
+    
+    task.spawn(function()
+        if getgenv().AutoFuckingGoku == true then
+            local GahDamn = "http://www.roblox.com/asset/?id=8448213216"
+            local Sound = Instance.new("Sound");Sound.Name = "Sound";Sound.SoundId = GahDamn
+            Sound.Volume = 10;Sound.Looped = false;Sound.Archivable = false;Sound.Parent = game.Workspace;Sound:Play();
+    
+            local Claps = "http://www.roblox.com/asset/?id=9114758204"
+            local Sound = Instance.new("Sound");Sound.Name = "Sound";Sound.SoundId = Claps
+            Sound.Volume = 10;Sound.Looped = true;Sound.Archivable = false;Sound.Parent = game.Workspace;Sound:Play();
+        else
+            for i,v in ipairs(workspace:children()) do
+                if v:isA("Sound") then
+                    v:Destroy();
+                end
+            end
+        end
+    end)
+    
+    task.spawn(function()
+        while getgenv().AutoFuckingGoku == true do
+            pcall(function()
+                local Auddy = game.Workspace.Live["Weakest Dummy"];
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Auddy.HumanoidRootPart.Position - Auddy.HumanoidRootPart.CFrame.LookVector * 1,Auddy.HumanoidRootPart.Position);
+            end)
+            task.wait(0.25);
+        end
+    end)
+end)
+
 MiscellaneousTab.newToggle("Auto Garou Counter Bait","",false,function(Value)
     getgenv().AutoGarouCounterBait = Value
 
@@ -509,19 +552,19 @@ end)
 local FightingTab = DrRayLibrary.newTab("Fighting","http://www.roblox.com/asset/?id=7461510428");
 
 FightingTab.newLabel("Fighting Scripts   ⚔️");
-FightingTab.newToggle("Aimlock Nearest Player (Overpowered)","",false,function(Value)
+FightingTab.newToggle("Auto Aimlock Nearest Player (Overpowered)","",false,function(Value)
     getgenv().AutoAimlocking = Value
     game:GetService("RunService").RenderStepped:Connect(function() if not getgenv().AutoAimlocking == true then return end local x,b for _,v in ipairs(game:GetService("Players"):GetPlayers()) do if v.Character and v ~= game:GetService("Players").LocalPlayer then if not x or (v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.Head.Position).Magnitude < b then x = v b = (v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.Head.Position).Magnitude end end end if x and b <= 35 then game:GetService("Workspace").CurrentCamera.CFrame = CFrame.new(game:GetService("Workspace").CurrentCamera.CFrame.p, x.Character.HumanoidRootPart.Position) end end);
 end)
 
-FightingTab.newToggle("Auto Ctrl + Click Combo Players (Overpowered)","",false,function(Value)
+FightingTab.newToggle("Auto M1 Click Combo Players (Very Overpowered)","",false,function(Value)
     getgenv().AutoTeleportPunching = Value
     getgenv().DetectionDistance = 55
     getgenv().TeleportDistance = 5
-
+    
     local LPlayer = game.Players.LocalPlayer
     local CRoot
-
+    
     local function UpdateCRoot()
         local LChar = LPlayer.Character
         if LChar then
@@ -532,15 +575,15 @@ FightingTab.newToggle("Auto Ctrl + Click Combo Players (Overpowered)","",false,f
             end
         end
     end
-
+    
     local function FindNearest()
         local Dist = getgenv().DetectionDistance
         local NearestPlr = nil
-
+    
         for _,v in pairs(game.Workspace.Live:GetChildren()) do
             local Humanoid = v:FindFirstChildOfClass("Humanoid");
             local HumanoidRoot = v:FindFirstChild("HumanoidRootPart");
-
+    
             if Humanoid and HumanoidRoot and v ~= LPlayer.Character then
                 if Humanoid.Health > 0 then
                     local Mag = (CRoot.Position - HumanoidRoot.Position).magnitude
@@ -551,112 +594,33 @@ FightingTab.newToggle("Auto Ctrl + Click Combo Players (Overpowered)","",false,f
                 end
             end
         end
-
+    
         return NearestPlr
     end
-
-    game:GetService("UserInputService").InputBegan:Connect(function(t, j)
-        if not j and t.UserInputType == Enum.UserInputType.MouseButton1 then
-            if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftControl) then
-                if getgenv().AutoTeleportPunching == true then
-                    pcall(function()UpdateCRoot();
-                        if CRoot then
-                            local Found = FindNearest();
-                            if Found then
-                                local Target = Found.Position + -Found.CFrame.LookVector * getgenv().TeleportDistance
-                                LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target,Target + (Found.Position - Target).unit));
-                            end
+    
+    task.spawn(function()
+        while getgenv().AutoTeleportPunching == true do
+            pcall(function()UpdateCRoot();
+                if workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("M1ing") then
+                    if CRoot then
+                        local Found = FindNearest();
+                        if Found then
+                            local Target = Found.Position + -Found.CFrame.LookVector * getgenv().TeleportDistance
+                            LPlayer.Character:SetPrimaryPartCFrame(CFrame.new(Target,Target + (Found.Position - Target).unit));
                         end
-                    end)
+                    end
                 end
-            end
+            end)
+            task.wait(0.015);
         end
     end)
-
+    
     LPlayer.CharacterAdded:Connect(function()
         task.wait(3);UpdateCRoot();
     end)
 end)
 
-FightingTab.newToggle("Auto Void Players (Requires Garou and Grab Moves)","",false,function(Value)
-    getgenv().AutoVoiding = Value
-
-    local X = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
-    local Teleported = false;
-    
-    task.spawn(function()
-        while getgenv().AutoVoiding == true do
-            pcall(function()         
-                local ForceField = workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("ForceField");
-                local HunterFists = workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("HunterFists");
-                
-                if ForceField and HunterFists and not Teleported then
-                    X = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-9000,-150,9000);
-                    Teleported = true;
-                elseif not ForceField and not HunterFists and Teleported then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = X;
-                    Teleported = false;
-                end
-            end)
-            task.wait(0.35);
-        end
-    end)
-end)
-
-FightingTab.newToggle("Auto No Slow (Overpowered)","",false,function(Value)
-    getgenv().AutoNoSlow = Value
-
-    task.spawn(function()
-        local connection
-        connection = game:GetService("RunService").RenderStepped:Connect(function()
-            if getgenv().AutoNoSlow == true then
-                pcall(function()
-                    if workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("Freeze") and workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("M1ing") then
-                        game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame = game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame * CFrame.new(0,10,0);
-                    end
-
-                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25;
-                end)
-            else
-                connection:Disconnect();
-            end
-        end)
-    end)
-end)
-
-FightingTab.newToggle("Auto Block Players (Overpowered)","",false,function(Value)
-    getgenv().AutoBlocking = Value
-
-    task.spawn(function()
-        local connection
-        connection = game:GetService("RunService").RenderStepped:Connect(function()
-            if getgenv().AutoBlocking == true then
-                pcall(function()
-                    for _,k in ipairs(workspace.Live:GetChildren()) do
-                        if k:IsA("Model") and k:FindFirstChild("Head") and k.Head:IsA("Part") and k.Head.Name == "Head" and k.Head ~= game.Players.LocalPlayer.Character.Head then
-                            if (k.Head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude <= 18.5 then
-                                if k:FindFirstChildOfClass("Humanoid") and k:FindFirstChildOfClass("Humanoid").Health > 0 then
-                                    if k:FindFirstChild("M1ing") then
-                                        local args = {[1] = {["Goal"] = "KeyPress",["Key"] = Enum.KeyCode.F}};
-                                        game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
-                                    else
-                                        local args = {[1] = {["Goal"] = "KeyRelease",["Key"] = Enum.KeyCode.F}};
-                                        game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));     
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end)
-            else
-                connection:Disconnect();
-            end
-        end)
-    end)
-end)
-
-FightingTab.newToggle("Auto Dodge Players (Overpowered)","",false,function(Value)
+FightingTab.newToggle("Auto Dodge Players (Very Overpowered)","",false,function(Value)
     getgenv().AutoDodging = Value
 
     local DashAnims = {NormalDash = {10479335397},WeaponDash = {13380255751}};
@@ -745,6 +709,80 @@ FightingTab.newToggle("Auto Dodge Players (Overpowered)","",false,function(Value
                 connection:Disconnect();
             end
         end)
+    end)
+end)
+
+FightingTab.newToggle("Auto Block Players (Overpowered)","",false,function(Value)
+    getgenv().AutoBlocking = Value
+
+    task.spawn(function()
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if getgenv().AutoBlocking == true then
+                pcall(function()
+                    for _,k in ipairs(workspace.Live:GetChildren()) do
+                        if k:IsA("Model") and k:FindFirstChild("Head") and k.Head:IsA("Part") and k.Head.Name == "Head" and k.Head ~= game.Players.LocalPlayer.Character.Head then
+                            if (k.Head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude <= 19.5 then
+                                if k:FindFirstChildOfClass("Humanoid") and k:FindFirstChildOfClass("Humanoid").Health > 0 then
+                                    if k:FindFirstChild("M1ing") then
+                                        local args = {[1] = {["Goal"] = "KeyPress",["Key"] = Enum.KeyCode.F}};
+                                        game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
+                                    else
+                                        local args = {[1] = {["Goal"] = "KeyRelease",["Key"] = Enum.KeyCode.F}};
+                                        game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));     
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+            else
+                connection:Disconnect();
+            end
+        end)
+    end)
+end)
+
+FightingTab.newToggle("Auto No Slow (Kinda Overpowered)","",false,function(Value)
+    getgenv().AutoNoSlow = Value
+
+    task.spawn(function()
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if getgenv().AutoNoSlow == true then
+                pcall(function()
+                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25;
+                end)
+            else
+                connection:Disconnect();
+            end
+        end)
+    end)
+end)
+
+FightingTab.newToggle("Auto Void Players (Requires Garou and Grab Moves)","",false,function(Value)
+    getgenv().AutoVoiding = Value
+
+    local X = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+    local Teleported = false;
+    
+    task.spawn(function()
+        while getgenv().AutoVoiding == true do
+            pcall(function()         
+                local ForceField = workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("ForceField");
+                local HunterFists = workspace.Live[game.Players.LocalPlayer.Name]:FindFirstChild("HunterFists");
+                
+                if ForceField and HunterFists and not Teleported then
+                    X = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-9000,-150,9000);
+                    Teleported = true;
+                elseif not ForceField and not HunterFists and Teleported then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = X;
+                    Teleported = false;
+                end
+            end)
+            task.wait(0.35);
+        end
     end)
 end)
 
