@@ -33,8 +33,6 @@ getgenv().Configurations = function()
         getgenv().AutoKillLowestHealthPlr = false;
         getgenv().AutoKillNearestPlr = false;
         getgenv().AutoGiveKills = false;
-        getgenv().AutoUseUltimate = false;
-        getgenv().AutoUseDashes = false;
 
         -- [Miscellaneous Scripts]
         getgenv().AutoMocking = false;
@@ -47,10 +45,10 @@ getgenv().Configurations = function()
         -- [Fighting Scripts]
         getgenv().AutoTeleportPunching = false;
         getgenv().AutoAimlocking = false;
-        getgenv().AutoVoiding = false;
-        getgenv().AutoNoSlow = false;
         getgenv().AutoBlocking = false;
         getgenv().AutoDodging = false;
+        getgenv().AutoVoiding = false;
+        getgenv().AutoNoSlow = false;
 
         -- [Movement Scripts]
         getgenv().WalkspeedBypass = false;
@@ -458,7 +456,7 @@ MiscellaneousTab.newToggle("Auto Dash Effects (Use No Slow)","",false,function(V
     end)
 end)
 
-MiscellaneousTab.newToggle("Auto Frick Goku (Sus)","",false,function(Value)
+MiscellaneousTab.newToggle("Auto Frick Goku's Gyatt (Sus)","",false,function(Value)
     getgenv().AutoFuckingGoku = Value
 
     task.spawn(function()
@@ -818,35 +816,6 @@ FarmingTab.newDropdown("","",{"Saitama","Garou","Genos","Sonic","Metal Bat","Ato
         elseif Value == "Who The Fuck Is This?" then
             local args = {[1] = {["Goal"] = "Change Character",["Character"] = "Purple"}};
             game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
-        end
-    end)
-end)
-
-FarmingTab.newLabel("Auto Use Skill   💥");
-FarmingTab.newToggle("Auto Use Ultimate","",false,function(Value)
-    getgenv().AutoUseUltimate = Value
-
-    task.spawn(function()
-        while getgenv().AutoUseUltimate == true do
-            pcall(function()
-                local args = {[1] = {["Goal"] = "KeyPress",["Key"] = Enum.KeyCode.G}};
-                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));             
-            end)
-            task.wait(0.45);
-        end
-    end)
-end)
-
-FarmingTab.newToggle("Auto Use Dashes","",false,function(Value)
-    getgenv().AutoUseDashes = Value
-
-    task.spawn(function()
-        while getgenv().AutoUseDashes == true do
-            pcall(function()
-                local args = {[1] = {["Dash"] = Enum.KeyCode.W,["Key"] = Enum.KeyCode.Q,["Goal"] = "KeyPress"}};
-                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args));
-            end)
-            task.wait(0.45);
         end
     end)
 end)
