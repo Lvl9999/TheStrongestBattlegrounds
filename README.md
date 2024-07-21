@@ -1,4 +1,4 @@
-# Project Nova V9
+# Project Nova V9 [In Maintenance]
 ### A Script hub exclusively for The Strongest Battlegrounds!
 
 - #### I named this hub "Project Nova" bc I got inspired by a Project JoJo script called "Nova Hub" which I liked.
