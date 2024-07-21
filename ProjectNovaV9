@@ -65,7 +65,7 @@ local DrRayLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/
 local BoredLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Lvl9999/Bored/main/Backup"))();
 -----------------------------------------------------------------------------------------------------------------------
 
-local MainWindow = DrRayLibrary:Load("Project Nova   V9","Default");
+local MainWindow = DrRayLibrary:Load("Project Nova   V9  [In Maintenance]","Default");
 local HomeTab = DrRayLibrary.newTab("Home","http://www.roblox.com/asset/?id=9405923687");
 
 --// Apply Custom UI Color \\--
@@ -249,20 +249,6 @@ end)
 HomeTab.newButton("Goodbye Project Nova   👋","",function()
     task.spawn(function()pcall(function()game:GetService("CoreGui").DrRay:Destroy();end);end);getgenv().Configurations();
     BoredLibrary.prompt("Project Nova V9","Goodbye :)",0.5);
-end)
-
-HomeTab.newInput("Report Bugs / Feedback","Type here anything you want me to know :)",function(text)
-    getgenv().Message = text
-    getgenv().WebHook = "https://discord.com/api/webhooks/1259740492434903170/IviFL-3fPu7F6JpdkYtH98M3DMh74eURxDee_MSjD6kv9EKBnW9M70wa89UUERs3vvmx";
-
-    task.spawn(function()
-        if getgenv().Message ~= "" then
-            local data = {content = "",embeds = {{author = {name = game.Players.LocalPlayer.Name,},title = "Reported:",description = getgenv().Message,type = "rich",color = tonumber(0xff0000),footer = {text = string.format("Reported at %s",os.date("%Y-%m-%d %X"))}}}};
-            local request = http_request or request or HttpPost or syn.request
-            request({Url = getgenv().WebHook,Body = game:GetService("HttpService"):JSONEncode(data),Method = "POST",Headers = {["content-type"] = "application/json"}});
-            BoredLibrary.prompt("Project Nova V9","Message Sent   ✅",1.5);
-        end
-    end)
 end)
 
 local MiscellaneousTab = DrRayLibrary.newTab("Misc","http://www.roblox.com/asset/?id=9405930424");
